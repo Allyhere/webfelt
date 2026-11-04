@@ -1,7 +1,8 @@
-import { createSurface, srgbUnitsToLinear, type Surface } from "./color.ts";
-import type { Rgb } from "./types.ts";
+import { createSurface, srgbUnitsToLinear } from "./color/color.ts";
+import type { Surface } from "./color/color.types.ts";
+import type { Rgb } from "./render.types.ts";
 
-export function fillVerticalGradient(
+function fillVerticalGradient(
   surface: Surface,
   top: Rgb,
   bottom: Rgb,
@@ -9,7 +10,7 @@ export function fillVerticalGradient(
   const { width, height, data } = surface;
   const span = Math.max(height - 1, 1);
   for (let y = 0; y < height; y += 1) {
-    const endWeight = height === 1 ? 0 : y / span;
+    const endWeight = y / span;
     const startWeight = 1 - endWeight;
     const color = srgbUnitsToLinear(
       (top.r * startWeight + bottom.r * endWeight) / 255,

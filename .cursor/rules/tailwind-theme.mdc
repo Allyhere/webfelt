@@ -1,0 +1,20 @@
+---
+description: Use the Tailwind theme instead of arbitrary values
+alwaysApply: true
+---
+
+# Tailwind values
+
+Do not use arbitrary Tailwind values. A class name has no square brackets.
+
+Add a design value to `@theme` in `src/theme.css`, then use the utility it generates. Add a one-off property as a named `@utility` in that file.
+
+```tsx
+// Bad
+className="size-[48px] gap-[8px] [image-rendering:pixelated]"
+
+// Good
+className="pixelated size-swatch gap-choice"
+```
+
+A length that changes with data stays a CSS variable on the element. A named utility reads it. The calculation does not go in a class name.

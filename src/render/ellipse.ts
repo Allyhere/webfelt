@@ -1,5 +1,6 @@
-import { drawPixel, rgbaToLinear, type LinearColor, type Surface } from "./color.ts";
-import type { Rgba } from "./types.ts";
+import { drawPixel, rgbaToLinear } from "./color/color.ts";
+import type { LinearColor, Surface } from "./color/color.types.ts";
+import type { Rgba } from "./render.types.ts";
 
 function insideEllipse(
   dx: number,
@@ -21,12 +22,34 @@ function coverage(
     for (let subY = -3; subY <= 3; subY += 1) {
       const sampleX = dx + subX / 7;
       const sampleY = dy + subY / 7;
-      if (insideEllipse(sampleX, sampleY, inverseRadiusX, inverseRadiusY)) {
-        hits += 1;
-      }
+      if (insideEllipse(sampleX, sampleY, inverseRadiusX, inverseRadiusY)) hits += 1;
     }
   }
   return hits / 49;
+}
+
+function towardCenter(delta: number): number {
+  if (delta < 0) return 1;
+  return -1;
+}
+
+function glossAmount(
+  dx: number,
+  dy: number,
+  inverseRadiusX: number,
+  inverseRadiusY: number,
+): number {
+  const towardX = towardCenter(dx);
+  const towardY = towardCenter(dy);
+  const outerX = dx - (3 * towardX) / 7;
+  const outerY = dy - (3 * towardY) / 7;
+  if (insideEllipse(outerX, outerY, inverseRadiusX, inverseRadiusY)) return 1;
+  const innerX = dx + (3 * towardX) / 7;
+  const innerY = dy + (3 * towardY) / 7;
+  if (insideEllipse(innerX, innerY, inverseRadiusX, inverseRadiusY)) {
+    return coverage(dx, dy, inverseRadiusX, inverseRadiusY);
+  }
+  return 0;
 }
 
 function paintEllipsePixel(
@@ -51,27 +74,9 @@ export function drawGloss(surface: Surface, color: Rgba): void {
 
   for (let y = 0; y < surface.height; y += 1) {
     for (let x = 0; x < surface.width; x += 1) {
-      const dx = x - centerX;
-      const dy = y;
-      const towardX = dx < 0 ? 1 : -1;
-      const towardY = dy < 0 ? 1 : -1;
-      const outerX = dx - (3 * towardX) / 7;
-      const outerY = dy - (3 * towardY) / 7;
-      if (insideEllipse(outerX, outerY, inverseRadiusX, inverseRadiusY)) {
-        paintEllipsePixel(surface, x, y, linear, 1);
-        continue;
-      }
-      const innerX = dx + (3 * towardX) / 7;
-      const innerY = dy + (3 * towardY) / 7;
-      if (insideEllipse(innerX, innerY, inverseRadiusX, inverseRadiusY)) {
-        paintEllipsePixel(
-          surface,
-          x,
-          y,
-          linear,
-          coverage(dx, dy, inverseRadiusX, inverseRadiusY),
-        );
-      }
+      const amount = glossAmount(x - centerX, y, inverseRadiusX, inverseRadiusY);
+      if (amount <= 0) continue;
+      paintEllipsePixel(surface, x, y, linear, amount);
     }
   }
 }

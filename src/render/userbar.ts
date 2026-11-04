@@ -1,15 +1,21 @@
-import { drawPixel, rgbaToLinear, toImageData } from "./color.ts";
-import { applyEffect } from "./effects/index.ts";
+import { drawPixel, rgbaToLinear, toImageData } from "./color/color.ts";
+import type { Surface } from "./color/color.types.ts";
+import { applyEffects } from "../features/effects/applyEffects.ts";
 import { drawGloss } from "./ellipse.ts";
-import { ensureFont } from "./font.ts";
+import { ensureFont } from "./font/font.ts";
 import { createGradientSurface } from "./gradient.ts";
-import { patternSource } from "./patternCatalog.ts";
-import { drawSvgPattern } from "./svgPattern.ts";
+import { axisOffset } from "./placement.ts";
+import { patternSource } from "../features/patterns/patternCatalog/patternCatalog.ts";
+import { drawSvgPattern } from "../features/patterns/svgPattern/svgPattern.ts";
 import { drawText } from "./text.ts";
-import { axisOffset, type UserbarOptions } from "./types.ts";
+import type { UserbarOptions } from "./render.types.ts";
+
+function isInsideImage(image: ImageData, x: number, y: number): boolean {
+  return x >= 0 && y >= 0 && x < image.width && y < image.height;
+}
 
 function drawBackgroundImage(
-  surface: ReturnType<typeof createGradientSurface>,
+  surface: Surface,
   image: ImageData,
   options: UserbarOptions,
 ): void {
@@ -29,14 +35,7 @@ function drawBackgroundImage(
     for (let x = 0; x < surface.width; x += 1) {
       const imageX = x - offsetX;
       const imageY = y - offsetY;
-      if (
-        imageX < 0 ||
-        imageY < 0 ||
-        imageX >= image.width ||
-        imageY >= image.height
-      ) {
-        continue;
-      }
+      if (!isInsideImage(image, imageX, imageY)) continue;
       const index = (imageY * image.width + imageX) * 4;
       const alpha = image.data[index + 3];
       if (alpha === 0) continue;
@@ -55,10 +54,7 @@ function drawBackgroundImage(
   }
 }
 
-function drawBorder(
-  surface: ReturnType<typeof createGradientSurface>,
-  options: UserbarOptions,
-): void {
+function drawBorder(surface: Surface, options: UserbarOptions): void {
   if (options.border.a <= 0) return;
   const color = rgbaToLinear(options.border);
   const { width, height } = surface;
@@ -90,7 +86,7 @@ export async function renderUserbar(options: UserbarOptions): Promise<ImageData>
   if (options.backgroundImage) {
     drawBackgroundImage(surface, options.backgroundImage, options);
   }
-  applyEffect(surface, options.effectId);
+  applyEffects(surface, options.effectIds);
   drawGloss(surface, options.gloss);
   drawText(
     surface,

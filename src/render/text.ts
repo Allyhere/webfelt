@@ -1,13 +1,28 @@
-import { drawPixel, rgbaToLinear, type Surface } from "./color.ts";
-import { layoutText } from "./font.ts";
-import { axisOffset, type Placement, type Rgba } from "./types.ts";
+import { drawPixel, rgbaToLinear } from "./color/color.ts";
+import type { LinearColor, Surface } from "./color/color.types.ts";
+import { layoutText } from "./font/font.ts";
+import { axisOffset } from "./placement.ts";
+import type { Placement, Rgba } from "./render.types.ts";
+
+function paintOutline(
+  surface: Surface,
+  originX: number,
+  originY: number,
+  color: LinearColor,
+): void {
+  for (let dx = -1; dx <= 1; dx += 1) {
+    for (let dy = -1; dy <= 1; dy += 1) {
+      drawPixel(surface, originX + dx, originY + dy, color);
+    }
+  }
+}
 
 function paintColumn(
   surface: Surface,
   column: Uint8Array,
   originX: number,
   originY: number,
-  color: ReturnType<typeof rgbaToLinear>,
+  color: LinearColor,
   outline: boolean,
 ): void {
   for (let y = 0; y < column.length; y += 1) {
@@ -16,11 +31,7 @@ function paintColumn(
       drawPixel(surface, originX, originY + y, color);
       continue;
     }
-    for (let dx = -1; dx <= 1; dx += 1) {
-      for (let dy = -1; dy <= 1; dy += 1) {
-        drawPixel(surface, originX + dx, originY + y + dy, color);
-      }
-    }
+    paintOutline(surface, originX, originY + y, color);
   }
 }
 
