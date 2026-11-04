@@ -91,6 +91,7 @@ Every group of controls is a card, the "sidebar box" of a blog theme.
 - Padding `p-window` (12px); rows separated by `gap-row` (8px).
 - Heading: a real `h2`, `font-pixel text-title text-grape-900`, led by a dingbat in `pink-500`, closed by a dotted rule `border-b border-dotted border-lavender-400 pb-tight`.
 - The card is a `section` labelled by its heading, so cards are landmarks in the outline.
+- Dragging the card title, or the padding around its fields, moves that card with `translate3d`. The grid cell stays where it is, so the other cards do not reflow. Buttons, fields, sliders, and chips do not start a drag.
 
 ### Input
 
@@ -109,6 +110,8 @@ Invalid: `bg-danger-100 border-danger-700`, error message `text-danger-700 text-
 ### Chip (ToggleButton)
 
 Pattern and effect swatches. `rounded-control border-2 border-dotted border-lavender-400 bg-paper p-tight`, canvas `size-swatch` pixelated. Hover `bg-lavender-100`. Selected: `border-solid border-pink-500 bg-pink-100` plus a `check` dingbat; effects also show their order number.
+
+Pattern and effect lists use `choice-grid`: `repeat(auto-fit, minmax(min(100%, chip), 1fr))` with `gap-choice`. Every chip fills its cell, so pattern and effect cards share one size. The caption uses `chip-label`, a minimum height of `text-title`, so the effect order number does not make its row taller. The `min(100%, …)` keeps a single column from overflowing a narrow card.
 
 ### Slider
 
@@ -155,6 +158,8 @@ Named areas: `left`, `center`, `right`.
 
 The page is `header` (site title with dingbat, tagline, meta line, ticker) → `main` (the grid) → `footer` (dotted rule, keyboard hints, sign-off). A skip link jumps to `main`.
 
+The header links to the blinkie page. That page uses this same chrome, the same cards, and the same preview mat. Its canvas is fixed at 150×20. Three chip groups pick a border motion, a pattern motion, and a font flash. The preview plays those frames, and it holds the first frame while Pause is on or `prefers-reduced-motion` is set. The download is a GIF.
+
 ## Spacing and shape
 
 | Token | Value |
@@ -168,6 +173,7 @@ The page is `header` (site title with dingbat, tagline, meta line, ticker) → `
 | `control` | 32px (height of inputs and buttons) |
 | `check` | 18px |
 | `swatch` | 48px |
+| `chip` | 8rem (minimum column for a pattern or effect chip) |
 | `thumb` | 18px |
 | `track` | 10px |
 | `option` | 44px (option row height) |

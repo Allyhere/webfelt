@@ -11,8 +11,9 @@ import { PatternFields } from "../patterns/PatternFields.tsx";
 import { ResultFields } from "../result/ResultFields.tsx";
 import { SizeFields } from "../size/SizeFields.tsx";
 import { TextFields } from "../text/TextFields.tsx";
+import type { UserbarPageProps } from "./UserbarPage.types.ts";
 
-export function UserbarPage() {
+export function UserbarPage({ onShowBlinkies }: UserbarPageProps) {
   const { form, save } = useUserbarDraft();
   return (
     <div className="mx-auto grid max-w-page gap-section p-gutter md:p-section">
@@ -31,6 +32,19 @@ export function UserbarPage() {
             Glossy forum signature bars, rendered pixel by pixel in your browser. Nothing is
             uploaded.
           </p>
+          <nav className="flex flex-wrap items-center gap-choice text-tiny" aria-label="Generators">
+            <span aria-current="page" className="font-bold text-grape-900">
+              Userbars
+            </span>
+            <Dingbat name="diamond" className="text-lavender-400" />
+            <button
+              type="button"
+              onClick={onShowBlinkies}
+              className="cursor-pointer text-cobalt-500 underline hover:text-cobalt-700 focus-visible:focus-ring"
+            >
+              Blinkies
+            </button>
+          </nav>
           <p className="flex flex-wrap items-center gap-choice text-tiny text-grape-700">
             <span>a tiny tool</span>
             <Dingbat name="diamond" className="text-lavender-400" />
@@ -73,7 +87,10 @@ export function UserbarPage() {
       <footer className="grid gap-choice border-t-2 border-dotted border-grape-700 pt-gutter text-tiny text-grape-700">
         <p className="flex flex-wrap items-center gap-choice">
           <Dingbat name="flower" className="text-pink-500" />
-          <span>Tab moves between controls. Space toggles a chip. Arrow keys move sliders.</span>
+          <span>
+            Tab moves between controls. Space toggles a chip. Arrow keys move sliders. Drag a
+            card from its title.
+          </span>
         </p>
         <p className="flex flex-wrap items-center gap-choice">
           <Dingbat name="heart" className="text-pink-500" />

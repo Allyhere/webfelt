@@ -1,36 +1,30 @@
-import { useMemo, useRef } from "react";
-import { useCanvasPaint } from "../../../hooks/useCanvasPaint.ts";
+import { useMemo } from "react";
+import { ChoiceList } from "../../../components/ChoiceList/ChoiceList.tsx";
 import { useUserbarDraft } from "../../../hooks/useUserbarDraft.ts";
-import {
-  brickPattern,
-  checkerPattern,
-  circlesPattern,
-  diagonalPattern,
-  dotsPattern,
-  gridPattern,
-  horizontalPattern,
-  otherDiagonalPattern,
-  slashPattern,
-  verticalPattern,
-} from "../patternCatalog/patternCatalog.constants.ts";
-import { renderPatternSample } from "../svgPattern/svgPattern.ts";
-import { Chip } from "../../../components/Chip/Chip.tsx";
 import { hexToRgb } from "../../../utils/color.ts";
 import { sampleSpacing } from "../../../utils/draft.ts";
+import { patternSource } from "../patternCatalog/patternCatalog.ts";
+import { renderPatternSample } from "../svgPattern/svgPattern.ts";
 
-type PatternChoiceProps = {
-  id: string;
-  svg: string;
-  children: string;
-};
+const patterns = [
+  { id: "diagonal", label: "Diagonal" },
+  { id: "other-diagonal", label: "Other diagonal" },
+  { id: "horizontal", label: "Horizontal" },
+  { id: "vertical", label: "Vertical" },
+  { id: "grid", label: "Grid" },
+  { id: "checker", label: "Checker" },
+  { id: "dots", label: "Dots" },
+  { id: "brick", label: "Brick" },
+  { id: "circles", label: "Circles" },
+  { id: "slash", label: "Slash" },
+] as const;
 
-function PatternChoice({ id, svg, children }: PatternChoiceProps) {
-  const { draft, update } = useUserbarDraft();
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const sample = useMemo(
+function usePatternSample(id: string): ImageData {
+  const { draft } = useUserbarDraft();
+  return useMemo(
     () =>
       renderPatternSample(
-        svg,
+        patternSource(id),
         hexToRgb(draft.backgroundTop),
         hexToRgb(draft.backgroundBottom),
         { ...hexToRgb(draft.scanline.hex), a: 1 },
@@ -38,7 +32,7 @@ function PatternChoice({ id, svg, children }: PatternChoiceProps) {
         draft.scanlineFlip,
       ),
     [
-      svg,
+      id,
       draft.backgroundTop,
       draft.backgroundBottom,
       draft.scanline,
@@ -46,54 +40,17 @@ function PatternChoice({ id, svg, children }: PatternChoiceProps) {
       draft.scanlineFlip,
     ],
   );
-  useCanvasPaint(canvasRef, sample);
-
-  return (
-    <li>
-      <Chip
-        isSelected={draft.patternId === id}
-        onChange={() => update({ patternId: id })}
-        canvasRef={canvasRef}
-      >
-        {children}
-      </Chip>
-    </li>
-  );
 }
 
 export function PatternList() {
+  const { draft, update } = useUserbarDraft();
   return (
-    <ul aria-label="Pattern" className="m-0 flex list-none flex-wrap gap-choice p-0">
-      <PatternChoice id="diagonal" svg={diagonalPattern}>
-        Diagonal
-      </PatternChoice>
-      <PatternChoice id="other-diagonal" svg={otherDiagonalPattern}>
-        Other diagonal
-      </PatternChoice>
-      <PatternChoice id="horizontal" svg={horizontalPattern}>
-        Horizontal
-      </PatternChoice>
-      <PatternChoice id="vertical" svg={verticalPattern}>
-        Vertical
-      </PatternChoice>
-      <PatternChoice id="grid" svg={gridPattern}>
-        Grid
-      </PatternChoice>
-      <PatternChoice id="checker" svg={checkerPattern}>
-        Checker
-      </PatternChoice>
-      <PatternChoice id="dots" svg={dotsPattern}>
-        Dots
-      </PatternChoice>
-      <PatternChoice id="brick" svg={brickPattern}>
-        Brick
-      </PatternChoice>
-      <PatternChoice id="circles" svg={circlesPattern}>
-        Circles
-      </PatternChoice>
-      <PatternChoice id="slash" svg={slashPattern}>
-        Slash
-      </PatternChoice>
-    </ul>
+    <ChoiceList
+      label="Pattern"
+      items={patterns}
+      isSelected={(id) => draft.patternId === id}
+      onSelect={(id) => update({ patternId: id })}
+      useSample={usePatternSample}
+    />
   );
 }

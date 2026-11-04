@@ -1,5 +1,5 @@
 import { FONT, INK } from "./font.constants.ts";
-import type { FontFace, InkBounds } from "./font.types.ts";
+import type { FontFace, Glyph, InkBounds } from "./font.types.ts";
 
 let ready: Promise<void> | null = null;
 let face: FontFace | null = null;
@@ -105,13 +105,20 @@ function glyphColumns(char: string): Uint8Array[] {
   return columns;
 }
 
+export function layoutGlyphs(text: string): Glyph[] {
+  return Array.from(text).map((char) => ({
+    columns: glyphColumns(char),
+    space: char === " ",
+  }));
+}
+
 export function layoutText(text: string): Uint8Array[] {
-  const characters = Array.from(text);
+  const glyphs = layoutGlyphs(text);
   const columns: Uint8Array[] = [];
-  const rowCount = face?.height ?? 0;
-  for (let index = 0; index < characters.length; index += 1) {
-    columns.push(...glyphColumns(characters[index]));
-    if (index < characters.length - 1) columns.push(new Uint8Array(rowCount));
+  const rowCount = face?.height ?? glyphs[0]?.columns[0]?.length ?? 0;
+  for (let index = 0; index < glyphs.length; index += 1) {
+    columns.push(...glyphs[index].columns);
+    if (index < glyphs.length - 1) columns.push(new Uint8Array(rowCount));
   }
   return columns;
 }

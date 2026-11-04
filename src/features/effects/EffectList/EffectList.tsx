@@ -1,23 +1,28 @@
-import { useMemo, useRef } from "react";
-import { useCanvasPaint } from "../../../hooks/useCanvasPaint.ts";
+import { useMemo } from "react";
+import { ChoiceList } from "../../../components/ChoiceList/ChoiceList.tsx";
 import { useUserbarDraft } from "../../../hooks/useUserbarDraft.ts";
-import { renderEffectSample } from "../preview/preview.ts";
-import { patternSource } from "../../patterns/patternCatalog/patternCatalog.ts";
-import { Chip } from "../../../components/Chip/Chip.tsx";
 import { hexToRgb } from "../../../utils/color.ts";
 import { sampleSpacing } from "../../../utils/draft.ts";
+import { patternSource } from "../../patterns/patternCatalog/patternCatalog.ts";
+import { renderEffectSample } from "../preview/preview.ts";
 
-type EffectChoiceProps = {
-  id: string;
-  children: string;
-};
+const effects = [
+  { id: "wave", label: "Wave" },
+  { id: "glitch", label: "Glitch" },
+  { id: "split", label: "Split" },
+  { id: "pixelate", label: "Pixelate" },
+  { id: "grain", label: "Grain" },
+  { id: "posterize", label: "Posterize" },
+  { id: "blur", label: "Blur" },
+  { id: "motion", label: "Motion blur" },
+  { id: "emboss", label: "Emboss" },
+  { id: "warp", label: "Warp" },
+  { id: "bulge", label: "Bulge" },
+] as const;
 
-function EffectChoice({ id, children }: EffectChoiceProps) {
-  const { draft, toggleEffect } = useUserbarDraft();
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const selected = draft.effectIds.includes(id);
-  const order = draft.effectIds.indexOf(id) + 1;
-  const sample = useMemo(
+function useEffectSample(id: string): ImageData {
+  const { draft } = useUserbarDraft();
+  return useMemo(
     () =>
       renderEffectSample(
         patternSource(draft.patternId),
@@ -38,36 +43,21 @@ function EffectChoice({ id, children }: EffectChoiceProps) {
       draft.scanlineFlip,
     ],
   );
-  useCanvasPaint(canvasRef, sample);
-
-  return (
-    <li>
-      <Chip
-        isSelected={selected}
-        onChange={() => toggleEffect(id)}
-        canvasRef={canvasRef}
-        badge={order}
-      >
-        {children}
-      </Chip>
-    </li>
-  );
 }
 
 export function EffectList() {
+  const { draft, toggleEffect } = useUserbarDraft();
   return (
-    <ul aria-label="Effects" className="m-0 flex list-none flex-wrap gap-choice p-0">
-      <EffectChoice id="wave">Wave</EffectChoice>
-      <EffectChoice id="glitch">Glitch</EffectChoice>
-      <EffectChoice id="split">Split</EffectChoice>
-      <EffectChoice id="pixelate">Pixelate</EffectChoice>
-      <EffectChoice id="grain">Grain</EffectChoice>
-      <EffectChoice id="posterize">Posterize</EffectChoice>
-      <EffectChoice id="blur">Blur</EffectChoice>
-      <EffectChoice id="motion">Motion blur</EffectChoice>
-      <EffectChoice id="emboss">Emboss</EffectChoice>
-      <EffectChoice id="warp">Warp</EffectChoice>
-      <EffectChoice id="bulge">Bulge</EffectChoice>
-    </ul>
+    <ChoiceList
+      label="Effects"
+      items={effects}
+      isSelected={(id) => draft.effectIds.includes(id)}
+      onSelect={toggleEffect}
+      badge={(id) => {
+        const index = draft.effectIds.indexOf(id);
+        return index < 0 ? undefined : index + 1;
+      }}
+      useSample={useEffectSample}
+    />
   );
 }

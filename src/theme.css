@@ -47,6 +47,7 @@
   --spacing-control: 2rem;
   --spacing-check: 1.125rem;
   --spacing-swatch: 3rem;
+  --spacing-chip: 8rem;
   --spacing-thumb: 1.125rem;
   --spacing-track: 0.625rem;
   --spacing-color-area: 12rem;
@@ -95,6 +96,23 @@
 
 @utility pixelated {
   image-rendering: pixelated;
+}
+
+/* Keeps a chip caption as tall as the effect order number. */
+@utility chip-label {
+  min-height: var(--text-title);
+}
+
+/* Pattern and effect chips share one cell size and wrap with the column. */
+@utility choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--spacing-chip)), 1fr));
+  gap: var(--spacing-choice);
+
+  & > li {
+    display: grid;
+    min-width: 0;
+  }
 }
 
 /* --bar-width and --bar-height are unitless pixel counts set on the element. */
@@ -148,4 +166,15 @@
 
 @utility area-right {
   grid-area: right;
+}
+
+/* --card-layer is set on the card when it is dragged. */
+@utility card-layer {
+  z-index: var(--card-layer, auto);
+}
+
+/* The pointer can leave the card while the button is held. */
+body:has([data-card-dragging]),
+body:has([data-card-dragging]) * {
+  cursor: grabbing;
 }

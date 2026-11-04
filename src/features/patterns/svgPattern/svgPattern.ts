@@ -98,6 +98,17 @@ function parseTile(svg: string): Tile {
   return { ...tileSize(root), shapes };
 }
 
+export function patternPeriod(svg: string): { width: number; height: number } {
+  const tile = tileFor(svg);
+  return { width: tile.width, height: tile.height };
+}
+
+export function patternCovers(svg: string, x: number, y: number): boolean {
+  const tile = tileFor(svg);
+  if (tile.width < 1 || tile.height < 1) return false;
+  return coverOpacity(tile.shapes, euclideanMod(x, tile.width), euclideanMod(y, tile.height), 1) > 0;
+}
+
 function tileFor(svg: string): Tile {
   const cached = tiles.get(svg);
   if (cached) return cached;

@@ -9,3 +9,8 @@ export type InkBounds = {
   top: number;
   bottom: number;
 };
+
+export type Glyph = {
+  columns: Uint8Array[];
+  space: boolean;
+};
