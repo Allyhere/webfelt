@@ -2,13 +2,13 @@ import { Controller, useFormContext } from "react-hook-form";
 import { PlacementFields } from "../../components/PlacementFields/PlacementFields.tsx";
 import { TextField } from "../../components/TextField/TextField.tsx";
 import { TintField } from "../../components/TintField/TintField.tsx";
-import { Window } from "../../components/Window/Window.tsx";
+import { Card } from "../../components/Card/Card.tsx";
 import type { DraftFields } from "../../types.ts";
 
 export function TextFields() {
   const { control } = useFormContext<DraftFields>();
   return (
-    <Window title="Text" ornament="arrow">
+    <Card title="Text" bullet="arrow">
       <Controller
         name="text"
         control={control}
@@ -59,6 +59,6 @@ export function TextFields() {
           />
         )}
       />
-    </Window>
+    </Card>
   );
 }

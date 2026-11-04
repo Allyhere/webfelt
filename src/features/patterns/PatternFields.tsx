@@ -2,7 +2,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Checkbox } from "../../components/Checkbox/Checkbox.tsx";
 import { NumberField } from "../../components/NumberField/NumberField.tsx";
 import { TintField } from "../../components/TintField/TintField.tsx";
-import { Window } from "../../components/Window/Window.tsx";
+import { Card } from "../../components/Card/Card.tsx";
 import type { DraftFields } from "../../types.ts";
 import { asRule, spacingError } from "../../utils/draft.ts";
 import { PatternList } from "./PatternList/PatternList.tsx";
@@ -10,7 +10,7 @@ import { PatternList } from "./PatternList/PatternList.tsx";
 export function PatternFields() {
   const { control } = useFormContext<DraftFields>();
   return (
-    <Window title="Pattern" ornament="scissors">
+    <Card title="Pattern" bullet="scissors">
       <PatternList />
       <Controller
         name="scanline"
@@ -50,6 +50,6 @@ export function PatternFields() {
           )}
         />
       </div>
-    </Window>
+    </Card>
   );
 }

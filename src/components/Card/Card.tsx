@@ -1,29 +1,21 @@
 import { useId } from "react";
 import { Dingbat } from "../Dingbat/Dingbat.tsx";
-import type { WindowProps } from "./Window.types.ts";
+import type { CardProps } from "./Card.types.ts";
 
-export function Window({ title, ornament = "star", className = "", children }: WindowProps) {
+export function Card({ title, bullet = "star", className = "", children }: CardProps) {
   const headingId = useId();
   return (
     <section
       aria-labelledby={headingId}
-      className={`border border-grape-900 bg-lavender-50 shadow-bevel ${className}`}
+      className={`grid gap-row rounded-card border-3 border-double border-grape-900 bg-lavender-50 p-window shadow-sticker ${className}`}
     >
-      <h2 className="bg-titlebar flex items-center gap-choice px-window py-tight font-pixel text-title text-chrome-light">
-        <Dingbat name={ornament} className="text-cyan-300" />
+      <h2 className="flex items-center gap-choice border-b border-dotted border-lavender-400 pb-tight font-pixel text-title text-grape-900">
+        <Dingbat name={bullet} className="text-pink-500" />
         <span id={headingId} className="min-w-0 flex-1 truncate">
           {title}
         </span>
-        <span aria-hidden="true" className="flex gap-tight text-label">
-          <span className="grid size-check place-items-center border border-grape-900 bg-chrome-mid font-body font-bold text-grape-900 shadow-bevel-flat">
-            _
-          </span>
-          <span className="grid size-check place-items-center border border-grape-900 bg-chrome-mid text-grape-900 shadow-bevel-flat">
-            <Dingbat name="cross" />
-          </span>
-        </span>
       </h2>
-      <div className="grid gap-row p-window">{children}</div>
+      {children}
     </section>
   );
 }

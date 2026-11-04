@@ -7,9 +7,9 @@ export function Chip({ isSelected, onChange, canvasRef, badge, children }: ChipP
     <ToggleButton
       isSelected={isSelected}
       onChange={onChange}
-      className="grid cursor-pointer justify-items-center gap-tight border border-grape-700 bg-lavender-50 p-tight font-body text-tiny text-grape-900 shadow-bevel-flat data-hovered:bg-lavender-100 data-pressed:shadow-bevel-in data-selected:border-pink-500 data-selected:bg-pink-100 data-focus-visible:focus-ring"
+      className="grid cursor-pointer justify-items-center gap-tight rounded-control border-2 border-dotted border-lavender-400 bg-paper p-tight font-body text-tiny text-grape-900 data-hovered:bg-lavender-100 data-pressed:translate-y-px data-selected:border-solid data-selected:border-pink-500 data-selected:bg-pink-100 data-focus-visible:focus-ring"
     >
-      <canvas ref={canvasRef} className="pixelated size-swatch" aria-hidden="true" />
+      <canvas ref={canvasRef} className="pixelated size-swatch rounded-control" aria-hidden="true" />
       <span className="flex items-center gap-tight">
         {isSelected ? <Dingbat name="check" className="text-pink-500" /> : null}
         <span>{children}</span>

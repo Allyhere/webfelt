@@ -18,14 +18,12 @@ export function Select<T extends string>({ label, value, onChange, children }: S
       }}
       className="grid min-w-0 gap-tight"
     >
-      <Label className="text-label font-bold text-grape-700">
-        {label}
-      </Label>
-      <Button className="flex h-control w-full cursor-pointer items-center justify-between gap-choice border border-grape-900 bg-chrome-mid px-tight text-left font-body text-body text-grape-900 shadow-bevel data-hovered:bg-lavender-100 data-pressed:shadow-bevel-in data-focus-visible:focus-ring">
+      <Label className="text-label font-bold text-grape-700">{label}</Label>
+      <Button className="flex h-control w-full cursor-pointer items-center justify-between gap-choice rounded-control border border-grape-700 bg-paper px-choice text-left font-body text-body text-grape-900 inset-shadow-soft data-hovered:bg-lavender-100 data-pressed:bg-lavender-100 data-focus-visible:focus-ring">
         <SelectValue className="truncate" />
-        <Dingbat name="arrow" className="rotate-90 text-grape-700" />
+        <Dingbat name="arrow" className="rotate-90 text-lavender-400" />
       </Button>
-      <Popover className="popover-width border border-grape-900 bg-lavender-50 shadow-bevel">
+      <Popover className="popover-width overflow-hidden rounded-control border border-grape-700 bg-paper shadow-sticker">
         <ListBox className="grid outline-none">{children}</ListBox>
       </Popover>
     </AriaSelect>

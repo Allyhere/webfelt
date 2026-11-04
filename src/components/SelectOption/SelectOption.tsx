@@ -7,7 +7,7 @@ export function SelectOption({ id, children }: SelectOptionProps) {
     <ListBoxItem
       id={id}
       textValue={children}
-      className="flex min-h-option cursor-pointer items-center justify-between gap-choice px-choice font-body text-body text-grape-900 outline-none data-focused:bg-cobalt-500 data-focused:text-chrome-light data-selected:font-bold"
+      className="flex min-h-option cursor-pointer items-center justify-between gap-choice px-choice font-body text-body text-grape-900 outline-none data-focused:bg-cobalt-500 data-focused:text-paper data-selected:font-bold"
     >
       {({ isSelected }) => (
         <>

@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { Button } from "../../components/Button/Button.tsx";
+import { Card } from "../../components/Card/Card.tsx";
 import { Dingbat } from "../../components/Dingbat/Dingbat.tsx";
-import { Window } from "../../components/Window/Window.tsx";
 import { useUserbarDraft } from "../../hooks/useUserbarDraft.ts";
 
 export function ResultFields() {
@@ -12,9 +12,9 @@ export function ResultFields() {
   } as CSSProperties;
   const barLabel = draft.text.trim() ? `Userbar: ${draft.text}` : "Userbar";
   return (
-    <Window title="Preview" ornament="heart">
+    <Card title="Preview" bullet="heart">
       <figure className="grid justify-items-center gap-row">
-        <div className="grid w-full place-items-center border border-grape-700 bg-lavender-100 p-window shadow-bevel-in">
+        <div className="grid w-full place-items-center rounded-control border border-dotted border-lavender-400 bg-lavender-100 p-window">
           <canvas
             ref={canvasRef}
             className="pixelated preview"
@@ -29,7 +29,10 @@ export function ResultFields() {
         </figcaption>
       </figure>
       {alertMessage ? (
-        <p role="alert" className="border border-danger-700 bg-danger-100 px-choice py-tight text-tiny text-danger-700">
+        <p
+          role="alert"
+          className="rounded-control border border-danger-700 bg-danger-100 px-choice py-tight text-tiny text-danger-700"
+        >
           {alertMessage}
         </p>
       ) : null}
@@ -42,6 +45,6 @@ export function ResultFields() {
           Save PNG
         </Button>
       </div>
-    </Window>
+    </Card>
   );
 }

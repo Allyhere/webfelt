@@ -28,13 +28,11 @@ export function NumberField({
       isInvalid={Boolean(errorMessage)}
       className="grid min-w-0 gap-tight"
     >
-      <Label className="text-label font-bold text-grape-700">
-        {label}
-      </Label>
-      <Group className="flex h-control min-w-0 border border-grape-700 bg-lavender-50 shadow-bevel-in data-focus-within:focus-ring data-invalid:border-danger-700 data-invalid:bg-danger-100">
+      <Label className="text-label font-bold text-grape-700">{label}</Label>
+      <Group className="flex h-control min-w-0 overflow-hidden rounded-control border border-grape-700 bg-paper inset-shadow-soft data-focus-within:focus-ring data-invalid:border-danger-700 data-invalid:bg-danger-100">
         <Button
           slot="decrement"
-          className="w-control shrink-0 cursor-pointer border-r border-grape-700 bg-chrome-mid font-pixel text-title text-grape-900 data-hovered:bg-lavender-100 data-pressed:shadow-bevel-in data-disabled:cursor-default data-disabled:text-chrome-dark"
+          className="w-control shrink-0 cursor-pointer border-r border-dotted border-lavender-400 bg-lavender-50 font-pixel text-title text-grape-900 data-hovered:bg-lavender-100 data-pressed:bg-lavender-200 data-disabled:cursor-default data-disabled:text-lavender-400"
         >
           -
         </Button>
@@ -44,7 +42,7 @@ export function NumberField({
         />
         <Button
           slot="increment"
-          className="w-control shrink-0 cursor-pointer border-l border-grape-700 bg-chrome-mid font-pixel text-title text-grape-900 data-hovered:bg-lavender-100 data-pressed:shadow-bevel-in data-disabled:cursor-default data-disabled:text-chrome-dark"
+          className="w-control shrink-0 cursor-pointer border-l border-dotted border-lavender-400 bg-lavender-50 font-pixel text-title text-grape-900 data-hovered:bg-lavender-100 data-pressed:bg-lavender-200 data-disabled:cursor-default data-disabled:text-lavender-400"
         >
           +
         </Button>

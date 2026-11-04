@@ -1,14 +1,14 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { MAX_HEIGHT, MAX_WIDTH } from "../../constants.ts";
 import { NumberField } from "../../components/NumberField/NumberField.tsx";
-import { Window } from "../../components/Window/Window.tsx";
+import { Card } from "../../components/Card/Card.tsx";
 import type { DraftFields } from "../../types.ts";
 import { asRule, heightError, widthError } from "../../utils/draft.ts";
 
 export function SizeFields() {
   const { control } = useFormContext<DraftFields>();
   return (
-    <Window title="Size" ornament="diamond">
+    <Card title="Size" bullet="diamond">
       <div className="grid grid-cols-2 items-start gap-choice">
         <Controller
           name="width"
@@ -46,6 +46,6 @@ export function SizeFields() {
       <p className="text-tiny text-grape-700">
         Classic forum bars are 350 by 19 pixels. The limit is {MAX_WIDTH} by {MAX_HEIGHT}.
       </p>
-    </Window>
+    </Card>
   );
 }

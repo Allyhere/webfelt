@@ -13,7 +13,7 @@ export function Checkbox({ isSelected, onChange, children }: CheckboxProps) {
         <>
           <span
             aria-hidden="true"
-            className="grid size-check shrink-0 place-items-center border border-grape-700 bg-lavender-50 shadow-bevel-in group-data-hovered:bg-lavender-100 group-data-focus-visible:focus-ring"
+            className="grid size-check shrink-0 place-items-center rounded-control border border-grape-700 bg-paper inset-shadow-soft group-data-hovered:bg-lavender-100 group-data-focus-visible:focus-ring"
           >
             {checked ? <Dingbat name="check" className="text-label" /> : null}
           </span>

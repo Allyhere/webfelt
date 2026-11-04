@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import type { DingbatName } from "../Dingbat/Dingbat.types.ts";
 
-export type WindowProps = {
+export type CardProps = {
   title: string;
-  ornament?: DingbatName;
+  bullet?: DingbatName;
   className?: string;
   children: ReactNode;
 };

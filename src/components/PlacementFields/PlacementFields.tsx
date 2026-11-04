@@ -11,8 +11,8 @@ function showsDistance(anchor: Anchor): boolean {
 export function PlacementFields({ legend, placement, onChange }: PlacementFieldsProps) {
   const set = (partial: Partial<Placement>) => onChange({ ...placement, ...partial });
   return (
-    <fieldset className="grid gap-row border-t border-lavender-400 pt-row">
-      <legend className="pr-choice font-pixel text-title text-grape-900">{legend}</legend>
+    <fieldset className="grid gap-row border-t border-dotted border-lavender-400 pt-row">
+      <legend className="pr-choice text-label font-bold text-grape-700">{legend}</legend>
       <div className="grid grid-cols-2 items-start gap-choice">
         <Select<Anchor>
           label="Horizontal"

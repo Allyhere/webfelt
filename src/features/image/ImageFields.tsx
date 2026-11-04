@@ -3,7 +3,7 @@ import { Button } from "../../components/Button/Button.tsx";
 import { Dingbat } from "../../components/Dingbat/Dingbat.tsx";
 import { FileField } from "../../components/FileField/FileField.tsx";
 import { PlacementFields } from "../../components/PlacementFields/PlacementFields.tsx";
-import { Window } from "../../components/Window/Window.tsx";
+import { Card } from "../../components/Card/Card.tsx";
 import { useUserbarDraft } from "../../hooks/useUserbarDraft.ts";
 import type { DraftFields } from "../../types.ts";
 
@@ -12,7 +12,7 @@ export function ImageFields() {
   const { control } = useFormContext<DraftFields>();
   const image = draft.backgroundImage;
   return (
-    <Window title="Background image" ornament="mail">
+    <Card title="Background image" bullet="mail">
       <div className="flex flex-wrap items-center gap-choice">
         <FileField
           acceptedFileTypes={["image/*"]}
@@ -41,6 +41,6 @@ export function ImageFields() {
           />
         )}
       />
-    </Window>
+    </Card>
   );
 }

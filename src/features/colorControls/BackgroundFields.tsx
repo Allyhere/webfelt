@@ -1,12 +1,12 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { ColorField } from "../../components/ColorField/ColorField.tsx";
-import { Window } from "../../components/Window/Window.tsx";
+import { Card } from "../../components/Card/Card.tsx";
 import type { DraftFields } from "../../types.ts";
 
 export function BackgroundFields() {
   const { control } = useFormContext<DraftFields>();
   return (
-    <Window title="Background" ornament="diamond">
+    <Card title="Background" bullet="diamond">
       <div className="grid grid-cols-2 items-start gap-choice">
         <Controller
           name="backgroundTop"
@@ -34,6 +34,6 @@ export function BackgroundFields() {
         />
       </div>
       <p className="text-tiny text-grape-700">The bar fades from the top color to the bottom color.</p>
-    </Window>
+    </Card>
   );
 }

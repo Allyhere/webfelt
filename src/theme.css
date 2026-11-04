@@ -13,9 +13,8 @@
   --color-pink-500: #ff3ea5;
   --color-pink-100: #ffd6ec;
   --color-cyan-300: #7ff9ff;
-  --color-chrome-light: #ffffff;
-  --color-chrome-mid: #dedbf3;
-  --color-chrome-dark: #8a84b8;
+  --color-paper: #ffffff;
+  --color-pink-600: #e62a8f;
   --color-danger-700: #b3103c;
   --color-danger-100: #ffe0e8;
 
@@ -48,23 +47,22 @@
   --spacing-control: 2rem;
   --spacing-check: 1.125rem;
   --spacing-swatch: 3rem;
-  --spacing-thumb: 1rem;
+  --spacing-thumb: 1.125rem;
   --spacing-track: 0.625rem;
   --spacing-color-area: 12rem;
   --spacing-option: 2.75rem;
   --container-preview: 44rem;
   --container-page: 90rem;
 
-  /* Radius */
+  /* Shape */
+  --radius-control: 0.375rem;
+  --radius-card: 0.75rem;
   --radius-pill: 999px;
 
-  /* Bevels */
-  --shadow-bevel: inset 1px 1px var(--color-chrome-light),
-    inset -1px -1px var(--color-chrome-dark), 3px 3px 0 var(--color-grape-900);
-  --shadow-bevel-flat: inset 1px 1px var(--color-chrome-light),
-    inset -1px -1px var(--color-chrome-dark);
-  --shadow-bevel-in: inset 1px 1px var(--color-chrome-dark),
-    inset -1px -1px var(--color-chrome-light);
+  /* Depth: one hard sticker shadow, one soft inset for inputs. */
+  --shadow-sticker: 3px 3px 0 var(--color-grape-900);
+  --shadow-sticker-soft: 2px 2px 0 var(--color-lavender-400);
+  --inset-shadow-soft: inset 0 1px 2px rgb(29 19 64 / 0.15);
 
   /* Motion */
   --animate-marquee: marquee 28s linear infinite;
@@ -82,20 +80,11 @@
   --preview-scale: 2;
 }
 
-/* Wallpaper: the tile stays 1:1 and is fixed so windows float over it. */
+/* Wallpaper: the tile stays 1:1 and is fixed so cards sit on it. */
 @utility bg-noise {
   background-image: url("/lavendarnoise.gif");
   background-repeat: repeat;
   background-attachment: fixed;
-}
-
-/* Title bars and the primary button share one gradient. */
-@utility bg-titlebar {
-  background-image: linear-gradient(
-    90deg,
-    var(--color-cobalt-500),
-    var(--color-grape-900)
-  );
 }
 
 /* Focus ring, applied only on data-focus-visible. */

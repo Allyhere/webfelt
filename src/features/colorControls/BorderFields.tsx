@@ -1,12 +1,12 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { TintField } from "../../components/TintField/TintField.tsx";
-import { Window } from "../../components/Window/Window.tsx";
+import { Card } from "../../components/Card/Card.tsx";
 import type { DraftFields } from "../../types.ts";
 
 export function BorderFields() {
   const { control } = useFormContext<DraftFields>();
   return (
-    <Window title="Border" ornament="star">
+    <Card title="Border" bullet="star">
       <Controller
         name="border"
         control={control}
@@ -20,6 +20,6 @@ export function BorderFields() {
         )}
       />
       <p className="text-tiny text-grape-700">Set the opacity to zero to turn the border off.</p>
-    </Window>
+    </Card>
   );
 }

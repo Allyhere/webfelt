@@ -18,18 +18,25 @@ export function UserbarPage() {
     <div className="mx-auto grid max-w-page gap-section p-gutter md:p-section">
       <a
         href="#stage"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-gutter focus:left-gutter focus:z-10 focus:border focus:border-grape-900 focus:bg-lavender-50 focus:px-window focus:py-tight focus:font-pixel focus:text-title focus:text-grape-900 focus:shadow-bevel focus:focus-ring"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-gutter focus:left-gutter focus:z-10 focus:rounded-control focus:border-2 focus:border-grape-900 focus:bg-paper focus:px-window focus:py-tight focus:font-pixel focus:text-title focus:text-grape-900 focus:shadow-sticker focus:focus-ring"
       >
         Skip to the generator
       </a>
       <header className="grid gap-gutter">
-        <div className="flex flex-wrap items-end justify-between gap-gutter">
+        <div className="grid gap-choice">
           <h1 className="font-pixel text-display text-grape-900">
             <Dingbat name="star" className="text-pink-500" /> Userbar Generator
           </h1>
           <p className="max-w-preview text-body text-grape-700">
             Glossy forum signature bars, rendered pixel by pixel in your browser. Nothing is
             uploaded.
+          </p>
+          <p className="flex flex-wrap items-center gap-choice text-tiny text-grape-700">
+            <span>a tiny tool</span>
+            <Dingbat name="diamond" className="text-lavender-400" />
+            <span>no accounts, no uploads</span>
+            <Dingbat name="diamond" className="text-lavender-400" />
+            <span>free forever</span>
           </p>
         </div>
         <Marquee>
@@ -63,13 +70,14 @@ export function UserbarPage() {
           </div>
         </Form>
       </main>
-      <footer className="flex flex-wrap items-center justify-between gap-choice border-t border-grape-700 pt-gutter text-tiny text-grape-700">
-        <p>
-          <Dingbat name="flower" className="text-pink-500" /> Tab moves between controls. Space
-          toggles a chip. Arrow keys move sliders.
+      <footer className="grid gap-choice border-t-2 border-dotted border-grape-700 pt-gutter text-tiny text-grape-700">
+        <p className="flex flex-wrap items-center gap-choice">
+          <Dingbat name="flower" className="text-pink-500" />
+          <span>Tab moves between controls. Space toggles a chip. Arrow keys move sliders.</span>
         </p>
-        <p>
-          <Dingbat name="heart" className="text-pink-500" /> Userbar Generator{" "}
+        <p className="flex flex-wrap items-center gap-choice">
+          <Dingbat name="heart" className="text-pink-500" />
+          <span>Userbar Generator. Made by hand, like the bars.</span>
           <Dingbat name="flower" className="text-pink-500" />
         </p>
       </footer>

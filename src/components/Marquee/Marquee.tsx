@@ -6,7 +6,7 @@ import type { MarqueeProps } from "./Marquee.types.ts";
 export function Marquee({ children }: MarqueeProps) {
   const [paused, setPaused] = useState(false);
   return (
-    <div className="group flex items-center gap-choice overflow-hidden rounded-pill border border-grape-900 bg-grape-900 pl-tight shadow-bevel">
+    <div className="group flex items-center gap-choice overflow-hidden rounded-pill border-2 border-grape-900 bg-grape-900 pl-tight shadow-sticker">
       <ToggleButton
         isSelected={paused}
         onChange={setPaused}
