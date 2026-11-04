@@ -3,3 +3,9 @@
 
 @source "./**/*.tsx";
 @source "../index.html";
+
+@layer base {
+  body {
+    @apply bg-noise bg-lavender-200 font-body text-body text-grape-900;
+  }
+}

@@ -1,31 +1,39 @@
-import { useId } from "react";
-import { useUserbarDraft } from "../../hooks/useUserbarDraft.ts";
+import { Controller, useFormContext } from "react-hook-form";
+import { ColorField } from "../../components/ColorField/ColorField.tsx";
+import { Window } from "../../components/Window/Window.tsx";
+import type { DraftFields } from "../../types.ts";
 
 export function BackgroundFields() {
-  const { draft, update } = useUserbarDraft();
-  const topId = useId();
-  const bottomId = useId();
+  const { control } = useFormContext<DraftFields>();
   return (
-    <fieldset>
-      <legend>Background</legend>
-      <label htmlFor={topId}>
-        Top color{" "}
-        <input
-          id={topId}
-          type="color"
-          value={draft.backgroundTop}
-          onChange={(event) => update({ backgroundTop: event.target.value })}
+    <Window title="Background" ornament="diamond">
+      <div className="grid grid-cols-2 items-start gap-choice">
+        <Controller
+          name="backgroundTop"
+          control={control}
+          render={({ field }) => (
+            <ColorField
+              label="Top color"
+              value={field.value}
+              onChange={field.onChange}
+              triggerRef={field.ref}
+            />
+          )}
         />
-      </label>
-      <label htmlFor={bottomId}>
-        Bottom color{" "}
-        <input
-          id={bottomId}
-          type="color"
-          value={draft.backgroundBottom}
-          onChange={(event) => update({ backgroundBottom: event.target.value })}
+        <Controller
+          name="backgroundBottom"
+          control={control}
+          render={({ field }) => (
+            <ColorField
+              label="Bottom color"
+              value={field.value}
+              onChange={field.onChange}
+              triggerRef={field.ref}
+            />
+          )}
         />
-      </label>
-    </fieldset>
+      </div>
+      <p className="text-tiny text-grape-700">The bar fades from the top color to the bottom color.</p>
+    </Window>
   );
 }

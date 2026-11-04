@@ -1,37 +1,55 @@
-import { useId } from "react";
-import { ColorField } from "../../components/ColorField/ColorField.tsx";
-import { useUserbarDraft } from "../../hooks/useUserbarDraft.ts";
+import { Controller, useFormContext } from "react-hook-form";
+import { Checkbox } from "../../components/Checkbox/Checkbox.tsx";
+import { NumberField } from "../../components/NumberField/NumberField.tsx";
+import { TintField } from "../../components/TintField/TintField.tsx";
+import { Window } from "../../components/Window/Window.tsx";
+import type { DraftFields } from "../../types.ts";
+import { asRule, spacingError } from "../../utils/draft.ts";
 import { PatternList } from "./PatternList/PatternList.tsx";
-import { WholeNumberField } from "../../components/WholeNumberField/WholeNumberField.tsx";
 
 export function PatternFields() {
-  const { draft, update } = useUserbarDraft();
-  const flipId = useId();
+  const { control } = useFormContext<DraftFields>();
   return (
-    <fieldset>
-      <legend>Pattern</legend>
+    <Window title="Pattern" ornament="scissors">
       <PatternList />
-      <ColorField
-        label="Pattern color"
-        opacityLabel="Pattern opacity"
-        color={draft.scanline}
-        onChange={(scanline) => update({ scanline })}
+      <Controller
+        name="scanline"
+        control={control}
+        render={({ field }) => (
+          <TintField
+            label="Pattern color"
+            opacityLabel="Pattern opacity"
+            value={field.value}
+            onChange={field.onChange}
+          />
+        )}
       />
-      <label htmlFor={flipId}>
-        <input
-          id={flipId}
-          type="checkbox"
-          checked={draft.scanlineFlip}
-          onChange={(event) => update({ scanlineFlip: event.target.checked })}
-        />{" "}
-        Flip direction
-      </label>
-      <WholeNumberField
-        label="Spacing"
-        value={draft.scanlineSpacing}
-        min={1}
-        onChange={(scanlineSpacing) => update({ scanlineSpacing })}
-      />
-    </fieldset>
+      <div className="grid gap-row">
+        <Controller
+          name="scanlineSpacing"
+          control={control}
+          rules={{ validate: asRule(spacingError) }}
+          render={({ field, fieldState }) => (
+            <NumberField
+              label="Spacing"
+              value={field.value}
+              onChange={field.onChange}
+              minValue={1}
+              inputRef={field.ref}
+              errorMessage={fieldState.error?.message}
+            />
+          )}
+        />
+        <Controller
+          name="scanlineFlip"
+          control={control}
+          render={({ field }) => (
+            <Checkbox isSelected={field.value} onChange={field.onChange}>
+              Flip direction
+            </Checkbox>
+          )}
+        />
+      </div>
+    </Window>
   );
 }

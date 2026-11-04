@@ -57,7 +57,7 @@ Sizes:
 | --- | --- | --- |
 | `text-tiny` | 11px / 1.4 | Help text, figcaption |
 | `text-body` | 13px / 1.5 | Default |
-| `text-label` | 12px / 1.4 | Field labels (uppercase, `tracking-label`) |
+| `text-label` | 12px / 1.4 | Field labels (bold, `grape-700`, no text-transform so screen readers do not spell them) |
 | `text-title` | 18px / 1 | Window title bars (pixel) |
 | `text-display` | 40px / 1 | Page heading (pixel) |
 | `text-ticker` | 16px / 1 | Marquee (pixel) |
@@ -144,8 +144,8 @@ Mobile first, three breakpoints.
 
 | Breakpoint | Layout |
 | --- | --- |
-| `< md` (48rem) | One column. The Preview window is first and sticky at the top so edits stay visible. |
-| `md` | Two columns. Preview spans both, then the left and right stacks. |
+| `< md` (48rem) | One column. The Preview window is first so the result is the first thing on screen. It is not sticky; a phone has no room to spare. |
+| `md` | Two columns. Preview spans both and sticks to the top, then the left and right stacks. |
 | `lg` (64rem) | Three columns `1fr minmax(0, 2fr) 1fr`. Preview is the centre column and sticks; config windows surround it. |
 
 Named areas: `left`, `center`, `right`. Column assignment:

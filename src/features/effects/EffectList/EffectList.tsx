@@ -3,7 +3,7 @@ import { useCanvasPaint } from "../../../hooks/useCanvasPaint.ts";
 import { useUserbarDraft } from "../../../hooks/useUserbarDraft.ts";
 import { renderEffectSample } from "../preview/preview.ts";
 import { patternSource } from "../../patterns/patternCatalog/patternCatalog.ts";
-import { SwatchButton } from "../../../components/SwatchButton/SwatchButton.tsx";
+import { Chip } from "../../../components/Chip/Chip.tsx";
 import { hexToRgb } from "../../../utils/color.ts";
 import { sampleSpacing } from "../../../utils/draft.ts";
 
@@ -41,20 +41,22 @@ function EffectChoice({ id, children }: EffectChoiceProps) {
   useCanvasPaint(canvasRef, sample);
 
   return (
-    <SwatchButton
-      pressed={selected}
-      onPress={() => toggleEffect(id)}
-      canvasRef={canvasRef}
-    >
-      {children}
-      {selected ? ` ${order}` : ""}
-    </SwatchButton>
+    <li>
+      <Chip
+        isSelected={selected}
+        onChange={() => toggleEffect(id)}
+        canvasRef={canvasRef}
+        badge={order}
+      >
+        {children}
+      </Chip>
+    </li>
   );
 }
 
 export function EffectList() {
   return (
-    <ul className="m-0 flex list-none flex-wrap gap-choice p-0">
+    <ul aria-label="Effects" className="m-0 flex list-none flex-wrap gap-choice p-0">
       <EffectChoice id="wave">Wave</EffectChoice>
       <EffectChoice id="glitch">Glitch</EffectChoice>
       <EffectChoice id="split">Split</EffectChoice>

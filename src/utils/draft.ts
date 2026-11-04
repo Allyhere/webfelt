@@ -3,14 +3,18 @@ import type { UserbarOptions } from "../render/render.types.ts";
 import type { Draft } from "../types.ts";
 import { hexToRgb } from "./color.ts";
 
+export function widthError(width: number): string | null {
+  if (Number.isInteger(width) && width >= 1 && width <= MAX_WIDTH) return null;
+  return `Width must be a whole number from 1 to ${MAX_WIDTH}.`;
+}
+
+export function heightError(height: number): string | null {
+  if (Number.isInteger(height) && height >= 1 && height <= MAX_HEIGHT) return null;
+  return `Height must be a whole number from 1 to ${MAX_HEIGHT}.`;
+}
+
 export function sizeError(width: number, height: number): string | null {
-  if (!(Number.isInteger(width) && width >= 1 && width <= MAX_WIDTH)) {
-    return `Width must be a whole number from 1 to ${MAX_WIDTH}.`;
-  }
-  if (!(Number.isInteger(height) && height >= 1 && height <= MAX_HEIGHT)) {
-    return `Height must be a whole number from 1 to ${MAX_HEIGHT}.`;
-  }
-  return null;
+  return widthError(width) ?? heightError(height);
 }
 
 export function spacingError(spacing: number): string | null {
@@ -23,14 +27,9 @@ export function sampleSpacing(spacing: number): number {
   return SAMPLE_SPACING;
 }
 
-export function numberFromInput(value: string): number {
-  if (value === "") return Number.NaN;
-  return Number(value);
-}
-
-export function numberInputValue(value: number): number | "" {
-  if (Number.isNaN(value)) return "";
-  return value;
+/** Adapts a nullable validator to a React Hook Form `validate` rule. */
+export function asRule(check: (value: number) => string | null): (value: number) => true | string {
+  return (value) => check(value) ?? true;
 }
 
 export function toggledIds(ids: string[], id: string): string[] {

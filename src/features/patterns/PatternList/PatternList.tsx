@@ -14,7 +14,7 @@ import {
   verticalPattern,
 } from "../patternCatalog/patternCatalog.constants.ts";
 import { renderPatternSample } from "../svgPattern/svgPattern.ts";
-import { SwatchButton } from "../../../components/SwatchButton/SwatchButton.tsx";
+import { Chip } from "../../../components/Chip/Chip.tsx";
 import { hexToRgb } from "../../../utils/color.ts";
 import { sampleSpacing } from "../../../utils/draft.ts";
 
@@ -49,19 +49,21 @@ function PatternChoice({ id, svg, children }: PatternChoiceProps) {
   useCanvasPaint(canvasRef, sample);
 
   return (
-    <SwatchButton
-      pressed={draft.patternId === id}
-      onPress={() => update({ patternId: id })}
-      canvasRef={canvasRef}
-    >
-      {children}
-    </SwatchButton>
+    <li>
+      <Chip
+        isSelected={draft.patternId === id}
+        onChange={() => update({ patternId: id })}
+        canvasRef={canvasRef}
+      >
+        {children}
+      </Chip>
+    </li>
   );
 }
 
 export function PatternList() {
   return (
-    <ul className="m-0 flex list-none flex-wrap gap-choice p-0">
+    <ul aria-label="Pattern" className="m-0 flex list-none flex-wrap gap-choice p-0">
       <PatternChoice id="diagonal" svg={diagonalPattern}>
         Diagonal
       </PatternChoice>

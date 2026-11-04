@@ -1,26 +1,51 @@
+import { Controller, useFormContext } from "react-hook-form";
 import { MAX_HEIGHT, MAX_WIDTH } from "../../constants.ts";
-import { useUserbarDraft } from "../../hooks/useUserbarDraft.ts";
-import { WholeNumberField } from "../../components/WholeNumberField/WholeNumberField.tsx";
+import { NumberField } from "../../components/NumberField/NumberField.tsx";
+import { Window } from "../../components/Window/Window.tsx";
+import type { DraftFields } from "../../types.ts";
+import { asRule, heightError, widthError } from "../../utils/draft.ts";
 
 export function SizeFields() {
-  const { draft, update } = useUserbarDraft();
+  const { control } = useFormContext<DraftFields>();
   return (
-    <fieldset>
-      <legend>Size</legend>
-      <WholeNumberField
-        label="Width"
-        value={draft.width}
-        min={1}
-        max={MAX_WIDTH}
-        onChange={(width) => update({ width })}
-      />
-      <WholeNumberField
-        label="Height"
-        value={draft.height}
-        min={1}
-        max={MAX_HEIGHT}
-        onChange={(height) => update({ height })}
-      />
-    </fieldset>
+    <Window title="Size" ornament="diamond">
+      <div className="grid grid-cols-2 items-start gap-choice">
+        <Controller
+          name="width"
+          control={control}
+          rules={{ validate: asRule(widthError) }}
+          render={({ field, fieldState }) => (
+            <NumberField
+              label="Width"
+              value={field.value}
+              onChange={field.onChange}
+              minValue={1}
+              maxValue={MAX_WIDTH}
+              inputRef={field.ref}
+              errorMessage={fieldState.error?.message}
+            />
+          )}
+        />
+        <Controller
+          name="height"
+          control={control}
+          rules={{ validate: asRule(heightError) }}
+          render={({ field, fieldState }) => (
+            <NumberField
+              label="Height"
+              value={field.value}
+              onChange={field.onChange}
+              minValue={1}
+              maxValue={MAX_HEIGHT}
+              inputRef={field.ref}
+              errorMessage={fieldState.error?.message}
+            />
+          )}
+        />
+      </div>
+      <p className="text-tiny text-grape-700">
+        Classic forum bars are 350 by 19 pixels. The limit is {MAX_WIDTH} by {MAX_HEIGHT}.
+      </p>
+    </Window>
   );
 }

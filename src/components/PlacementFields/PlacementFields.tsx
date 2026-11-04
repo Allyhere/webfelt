@@ -1,95 +1,54 @@
-import { useId } from "react";
 import type { Anchor, Placement } from "../../render/render.types.ts";
-
-type PlacementFieldsProps = {
-  legend: string;
-  placement: Placement;
-  onChange: (placement: Placement) => void;
-};
+import { NumberField } from "../NumberField/NumberField.tsx";
+import { Select } from "../Select/Select.tsx";
+import { SelectOption } from "../SelectOption/SelectOption.tsx";
+import type { PlacementFieldsProps } from "./PlacementFields.types.ts";
 
 function showsDistance(anchor: Anchor): boolean {
   return anchor !== "center";
 }
 
-function anchorFromSelect(value: string): Anchor {
-  if (value === "start" || value === "center" || value === "end") return value;
-  return "start";
-}
-
 export function PlacementFields({ legend, placement, onChange }: PlacementFieldsProps) {
-  const horizontalId = useId();
-  const verticalId = useId();
-  const horizontalDistanceId = useId();
-  const verticalDistanceId = useId();
+  const set = (partial: Partial<Placement>) => onChange({ ...placement, ...partial });
   return (
-    <fieldset>
-      <legend>{legend}</legend>
-      <label htmlFor={horizontalId}>
-        Horizontal alignment{" "}
-        <select
-          id={horizontalId}
+    <fieldset className="grid gap-row border-t border-lavender-400 pt-row">
+      <legend className="pr-choice font-pixel text-title text-grape-900">{legend}</legend>
+      <div className="grid grid-cols-2 items-start gap-choice">
+        <Select<Anchor>
+          label="Horizontal"
           value={placement.horizontal}
-          onChange={(event) =>
-            onChange({
-              ...placement,
-              horizontal: anchorFromSelect(event.target.value),
-            })
-          }
+          onChange={(horizontal) => set({ horizontal })}
         >
-          <option value="start">Left edge</option>
-          <option value="center">Middle</option>
-          <option value="end">Right edge</option>
-        </select>
-      </label>
-      {showsDistance(placement.horizontal) ? (
-        <label htmlFor={horizontalDistanceId}>
-          Horizontal distance{" "}
-          <input
-            id={horizontalDistanceId}
-            type="number"
+          <SelectOption id="start">Left edge</SelectOption>
+          <SelectOption id="center">Middle</SelectOption>
+          <SelectOption id="end">Right edge</SelectOption>
+        </Select>
+        {showsDistance(placement.horizontal) ? (
+          <NumberField
+            label="Distance"
             value={placement.horizontalDistance}
-            onChange={(event) =>
-              onChange({
-                ...placement,
-                horizontalDistance: Number(event.target.value),
-              })
-            }
+            onChange={(horizontalDistance) => set({ horizontalDistance })}
           />
-        </label>
-      ) : null}
-      <label htmlFor={verticalId}>
-        Vertical alignment{" "}
-        <select
-          id={verticalId}
+        ) : null}
+      </div>
+      <div className="grid grid-cols-2 items-start gap-choice">
+        <Select<Anchor>
+          label="Vertical"
           value={placement.vertical}
-          onChange={(event) =>
-            onChange({
-              ...placement,
-              vertical: anchorFromSelect(event.target.value),
-            })
-          }
+          onChange={(vertical) => set({ vertical })}
         >
-          <option value="start">Top edge</option>
-          <option value="center">Middle</option>
-          <option value="end">Bottom edge</option>
-        </select>
-      </label>
-      {showsDistance(placement.vertical) ? (
-        <label htmlFor={verticalDistanceId}>
-          Vertical distance{" "}
-          <input
-            id={verticalDistanceId}
-            type="number"
+          <SelectOption id="start">Top edge</SelectOption>
+          <SelectOption id="center">Middle</SelectOption>
+          <SelectOption id="end">Bottom edge</SelectOption>
+        </Select>
+        {showsDistance(placement.vertical) ? (
+          <NumberField
+            label="Distance"
             value={placement.verticalDistance}
-            onChange={(event) =>
-              onChange({
-                ...placement,
-                verticalDistance: Number(event.target.value),
-              })
-            }
+            onChange={(verticalDistance) => set({ verticalDistance })}
           />
-        </label>
-      ) : null}
+        ) : null}
+      </div>
     </fieldset>
   );
 }

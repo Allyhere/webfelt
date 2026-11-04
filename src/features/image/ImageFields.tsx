@@ -1,41 +1,46 @@
-import { useId } from "react";
-import { useUserbarDraft } from "../../hooks/useUserbarDraft.ts";
+import { Controller, useFormContext } from "react-hook-form";
+import { Button } from "../../components/Button/Button.tsx";
+import { Dingbat } from "../../components/Dingbat/Dingbat.tsx";
+import { FileField } from "../../components/FileField/FileField.tsx";
 import { PlacementFields } from "../../components/PlacementFields/PlacementFields.tsx";
+import { Window } from "../../components/Window/Window.tsx";
+import { useUserbarDraft } from "../../hooks/useUserbarDraft.ts";
+import type { DraftFields } from "../../types.ts";
 
 export function ImageFields() {
-  const { draft, update, storeImage, fileRef } = useUserbarDraft();
-  const fileId = useId();
+  const { draft, storeImage, clearImage } = useUserbarDraft();
+  const { control } = useFormContext<DraftFields>();
+  const image = draft.backgroundImage;
   return (
-    <fieldset>
-      <legend>Background image</legend>
-      <label htmlFor={fileId}>
-        Image file{" "}
-        <input
-          id={fileId}
-          ref={fileRef}
-          type="file"
-          accept="image/*"
-          onChange={(event) => {
-            const file = event.target.files?.[0];
-            if (file) storeImage(file, "Choose an image file.");
-          }}
-        />
-      </label>
-      <button
-        type="button"
-        onClick={() => {
-          update({ backgroundImage: null });
-          if (fileRef.current) fileRef.current.value = "";
-        }}
-      >
-        Clear
-      </button>
-      <p>You can also paste an image while this text field is not focused.</p>
-      <PlacementFields
-        legend="Image placement"
-        placement={draft.imagePlacement}
-        onChange={(imagePlacement) => update({ imagePlacement })}
+    <Window title="Background image" ornament="mail">
+      <div className="flex flex-wrap items-center gap-choice">
+        <FileField
+          acceptedFileTypes={["image/*"]}
+          onSelect={(file) => storeImage(file, "Choose an image file.")}
+        >
+          Choose image
+        </FileField>
+        <Button onPress={clearImage} isDisabled={image === null}>
+          <Dingbat name="cross" />
+          Clear
+        </Button>
+      </div>
+      <p className="text-tiny text-grape-700" aria-live="polite">
+        {image
+          ? `Loaded a ${image.width} by ${image.height} pixel image.`
+          : "No image yet. You can also paste one from the clipboard while no text field is focused."}
+      </p>
+      <Controller
+        name="imagePlacement"
+        control={control}
+        render={({ field }) => (
+          <PlacementFields
+            legend="Image placement"
+            placement={field.value}
+            onChange={field.onChange}
+          />
+        )}
       />
-    </fieldset>
+    </Window>
   );
 }

@@ -1,4 +1,5 @@
 import type { RefObject } from "react";
+import type { UseFormReturn } from "react-hook-form";
 import type { Placement } from "./render/render.types.ts";
 
 export type ColorDraft = {
@@ -26,6 +27,9 @@ export type Draft = {
   imagePlacement: Placement;
 };
 
+/** The part of the draft that React Hook Form holds. The image stays out of the form. */
+export type DraftFields = Omit<Draft, "backgroundImage">;
+
 type PreviewSize = {
   width: number;
   height: number;
@@ -33,13 +37,14 @@ type PreviewSize = {
 
 export type UserbarEditor = {
   draft: Draft;
-  update: (partial: Partial<Draft>) => void;
+  form: UseFormReturn<DraftFields>;
+  update: (partial: Partial<DraftFields>) => void;
   alertMessage: string;
   previewSize: PreviewSize;
   canvasRef: RefObject<HTMLCanvasElement | null>;
-  fileRef: RefObject<HTMLInputElement | null>;
   save: () => void;
   canSave: boolean;
   storeImage: (file: File, failureMessage: string) => void;
+  clearImage: () => void;
   toggleEffect: (id: string) => void;
 };
