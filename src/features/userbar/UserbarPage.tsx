@@ -26,7 +26,7 @@ export function UserbarPage({ onShowBlinkies }: UserbarPageProps) {
       <header className="grid gap-gutter">
         <div className="grid gap-choice">
           <h1 className="font-pixel text-display text-grape-900">
-            <Dingbat name="star" className="text-pink-500" /> Userbar Generator
+            <Dingbat name="star" className="text-pink-500" /> webfelt
           </h1>
           <p className="max-w-preview text-body text-grape-700">
             Glossy forum signature bars, rendered pixel by pixel in your browser. Nothing is
@@ -54,7 +54,7 @@ export function UserbarPage({ onShowBlinkies }: UserbarPageProps) {
           </p>
         </div>
         <Marquee>
-          welcome to userbar generator · paste an image · pick a pattern · save a PNG · best
+          welcome to webfelt · paste an image · pick a pattern · save a PNG · best
           viewed at any resolution !!!
         </Marquee>
       </header>
@@ -94,7 +94,7 @@ export function UserbarPage({ onShowBlinkies }: UserbarPageProps) {
         </p>
         <p className="flex flex-wrap items-center gap-choice">
           <Dingbat name="heart" className="text-pink-500" />
-          <span>Userbar Generator. Made by hand, like the bars.</span>
+          <span>webfelt. Made by hand, like the bars.</span>
           <Dingbat name="flower" className="text-pink-500" />
         </p>
       </footer>

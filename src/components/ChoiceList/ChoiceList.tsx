@@ -25,15 +25,16 @@ function Choice<Id extends string>({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sample = useSample(id);
   useCanvasPaint(canvasRef, sample);
+  const anchored = Boolean(anchorSelected && extra);
 
   return (
-    <li className={selected && anchorSelected ? "pattern-host" : undefined}>
+    <li className={anchored ? "pattern-host" : undefined}>
       <Chip
         isSelected={selected}
         onChange={() => onSelect(id)}
         canvasRef={canvasRef}
         badge={badge}
-        className={selected && anchorSelected ? "pattern-anchor" : ""}
+        className={anchored ? "pattern-anchor" : ""}
       >
         {label}
       </Chip>

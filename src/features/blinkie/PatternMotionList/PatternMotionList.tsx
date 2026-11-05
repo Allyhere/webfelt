@@ -6,6 +6,7 @@ import { useCanvasPaint } from "../../../hooks/useCanvasPaint.ts";
 import type { PatternMotion } from "../../../render/blinkie/blinkie.types.ts";
 import { paintPatternSwatch } from "../../../render/blinkie/pattern.ts";
 import { hexToRgb } from "../../../utils/color.ts";
+import type { PatternMotionListProps } from "./PatternMotionList.types.ts";
 
 const motions = [
   { id: "still", label: "Still" },
@@ -53,11 +54,13 @@ function MotionChip({
   label,
   place,
   delay,
+  onPick,
 }: {
   id: PatternMotion;
   label: string;
   place: string;
   delay: string;
+  onPick: () => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sample = useMotionSample(id);
@@ -76,7 +79,10 @@ function MotionChip({
       className={place}
       style={direction}
       isSelected={draft.patternMotion === id}
-      onChange={() => update({ patternMotion: id })}
+      onChange={() => {
+        update({ patternMotion: id });
+        onPick();
+      }}
       canvasRef={canvasRef}
     >
       {label}
@@ -84,7 +90,7 @@ function MotionChip({
   );
 }
 
-export function PatternMotionList() {
+export function PatternMotionList({ onPick }: PatternMotionListProps) {
   const [places] = useState(orbitPlaces);
   return (
     <div className="contents" role="group" aria-label="Pattern motion">
@@ -95,6 +101,7 @@ export function PatternMotionList() {
           label={item.label}
           place={places[index] ?? "orbit-side"}
           delay={`${index * 80}ms`}
+          onPick={onPick}
         />
       ))}
     </div>

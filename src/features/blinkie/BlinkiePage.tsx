@@ -24,7 +24,7 @@ export function BlinkiePage({ onShowUserbars }: BlinkiePageProps) {
       <header className="grid gap-gutter">
         <div className="grid gap-choice">
           <h1 className="font-pixel text-display text-grape-900">
-            <Dingbat name="star" className="text-pink-500" /> Blinkie Generator
+            <Dingbat name="star" className="text-pink-500" /> webfelt
           </h1>
           <p className="max-w-preview text-body text-grape-700">
             Tiny looping badges, painted pixel by pixel in your browser. Nothing is uploaded.
@@ -51,7 +51,7 @@ export function BlinkiePage({ onShowUserbars }: BlinkiePageProps) {
           </p>
         </div>
         <Marquee>
-          welcome to blinkie generator · march a border · crawl a pattern · flash the type · save
+          welcome to webfelt · march a border · crawl a pattern · flash the type · save
           a GIF · best viewed at any resolution !!!
         </Marquee>
       </header>
@@ -90,7 +90,7 @@ export function BlinkiePage({ onShowUserbars }: BlinkiePageProps) {
         </p>
         <p className="flex flex-wrap items-center gap-choice">
           <Dingbat name="heart" className="text-pink-500" />
-          <span>Blinkie Generator. Made by hand, like the badges.</span>
+          <span>webfelt. Made by hand, like the badges.</span>
           <Dingbat name="flower" className="text-pink-500" />
         </p>
       </footer>

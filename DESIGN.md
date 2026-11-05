@@ -1,13 +1,13 @@
-# Userbar Generator design
+# webfelt design
 
 Neue-Y2K, personal-site flavour. The app reads like a small Neocities blog: a tiled noise wallpaper, a hand-made header, a news ticker, boxed sidebars with dotted rules and dingbat bullets, and one "post" in the middle that happens to be a live userbar. No window chrome, no bevels, no fake title bars. React Aria provides every behaviour a screen reader or keyboard user needs; this document provides every pixel, and `src/theme.css` mirrors it one-to-one.
 
 ## Brand
 
-- Name: **Userbar Generator**. Two words, pixel font, title case.
+- Name: **webfelt**. One word, pixel font, lowercase.
 - Voice: short, friendly, forum-era. Sentences end. No exclamation spam except in the ticker, which is allowed exactly one `!!!`.
 - Mascot glyphs: dingbats. They are bullets, rules and status marks, never buttons. Decorative unless the component gives them a label.
-- Motto in the ticker: `welcome to userbar generator · paste an image · pick a pattern · save a PNG · best viewed at any resolution`.
+- Motto in the ticker: `welcome to webfelt · paste an image · pick a pattern · save a PNG · best viewed at any resolution`.
 
 ## Wallpaper
 
