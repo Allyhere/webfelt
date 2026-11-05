@@ -1,23 +1,26 @@
+import type { GradientAxis } from "./badge/badgeShape.types.ts";
 import { createSurface, srgbUnitsToLinear } from "./color/color.ts";
 import type { Surface } from "./color/color.types.ts";
 import type { Rgb } from "./render.types.ts";
 
-function fillVerticalGradient(
+function fillGradient(
   surface: Surface,
-  top: Rgb,
-  bottom: Rgb,
+  start: Rgb,
+  end: Rgb,
+  axis: GradientAxis,
 ): void {
   const { width, height, data } = surface;
-  const span = Math.max(height - 1, 1);
+  const horizontal = axis === "horizontal";
+  const span = Math.max((horizontal ? width : height) - 1, 1);
   for (let y = 0; y < height; y += 1) {
-    const endWeight = y / span;
-    const startWeight = 1 - endWeight;
-    const color = srgbUnitsToLinear(
-      (top.r * startWeight + bottom.r * endWeight) / 255,
-      (top.g * startWeight + bottom.g * endWeight) / 255,
-      (top.b * startWeight + bottom.b * endWeight) / 255,
-    );
     for (let x = 0; x < width; x += 1) {
+      const endWeight = (horizontal ? x : y) / span;
+      const startWeight = 1 - endWeight;
+      const color = srgbUnitsToLinear(
+        (start.r * startWeight + end.r * endWeight) / 255,
+        (start.g * startWeight + end.g * endWeight) / 255,
+        (start.b * startWeight + end.b * endWeight) / 255,
+      );
       const index = (y * width + x) * 3;
       data[index] = color.r;
       data[index + 1] = color.g;
@@ -31,8 +34,9 @@ export function createGradientSurface(
   height: number,
   top: Rgb,
   bottom: Rgb,
+  axis: GradientAxis = "vertical",
 ): Surface {
   const surface = createSurface(width, height);
-  fillVerticalGradient(surface, top, bottom);
+  fillGradient(surface, top, bottom, axis);
   return surface;
 }

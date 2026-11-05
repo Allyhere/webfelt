@@ -6,6 +6,8 @@ export type PatternMotion = "still" | "crawl" | "blink";
 
 export type FontMotion = "still" | "blink" | "flash" | "pulse" | "chase" | "rainbow";
 
+export type BlinkieFormat = "blinkie" | "badge" | "stamp";
+
 export type BlinkieDraft = {
   fill: string;
   patternId: string;
@@ -20,6 +22,7 @@ export type BlinkieDraft = {
   flashColor: string;
   fontMotion: FontMotion;
   delay: number;
+  format: BlinkieFormat;
 };
 
 export type BlinkieFrames = {

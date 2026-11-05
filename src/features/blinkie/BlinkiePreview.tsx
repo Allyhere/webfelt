@@ -6,7 +6,7 @@ import { useBlinkieDraft } from "../../hooks/useBlinkieDraft.ts";
 import { useBlinkiePlayback } from "../../hooks/useBlinkiePlayback.ts";
 import { useCanvasPaint } from "../../hooks/useCanvasPaint.ts";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion.ts";
-import { BLINKIE_HEIGHT, BLINKIE_WIDTH } from "../../render/blinkie/blinkie.constants.ts";
+import { blinkieFormat } from "../../render/blinkie/format.ts";
 
 export function BlinkiePreview() {
   const { draft, frames, canSave, textFits } = useBlinkieDraft();
@@ -16,10 +16,11 @@ export function BlinkiePreview() {
   const frame = useBlinkiePlayback(frames.length, draft.delay, hold);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const image = frames[hold ? 0 : frame] ?? null;
+  const spec = blinkieFormat(draft.format);
   useCanvasPaint(canvasRef, image);
   const previewStyle = {
-    "--bar-width": BLINKIE_WIDTH,
-    "--bar-height": BLINKIE_HEIGHT,
+    "--bar-width": spec.width,
+    "--bar-height": spec.height,
   } as CSSProperties;
   const label = draft.text.trim() ? `Blinkie: ${draft.text}` : "Blinkie";
   const frameCount = frames.length === 1 ? "1 frame" : `${frames.length} frames`;
@@ -42,7 +43,7 @@ export function BlinkiePreview() {
           />
         </div>
         <figcaption className="text-center text-tiny text-grape-700">
-          Shown at double size. 150 by 20 pixels
+          Shown at double size. {spec.width} by {spec.height} pixels
           {frames.length > 0 ? `, ${frameCount}` : ""}. The saved file is a GIF.
         </figcaption>
       </figure>

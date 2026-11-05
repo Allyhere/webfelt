@@ -3,6 +3,7 @@ import { ChoiceList } from "../../../components/ChoiceList/ChoiceList.tsx";
 import { useBlinkieClock } from "../../../hooks/useBlinkieClock.ts";
 import { useBlinkieDraft } from "../../../hooks/useBlinkieDraft.ts";
 import { paintPatternSwatch } from "../../../render/blinkie/pattern.ts";
+import { PatternMotionList } from "../PatternMotionList/PatternMotionList.tsx";
 import { patternSource } from "../../patterns/patternCatalog/patternCatalog.ts";
 import { renderPatternSample } from "../../patterns/svgPattern/svgPattern.ts";
 import { hexToRgb } from "../../../utils/color.ts";
@@ -16,6 +17,9 @@ const patterns = [
   { id: "grid", label: "Grid" },
   { id: "checker", label: "Checker" },
   { id: "dots", label: "Dots" },
+  { id: "big-dots", label: "Big dots" },
+  { id: "plus", label: "Plus" },
+  { id: "star", label: "Star" },
   { id: "brick", label: "Brick" },
   { id: "circles", label: "Circles" },
   { id: "slash", label: "Slash" },
@@ -43,6 +47,8 @@ export function BlinkiePatternList() {
       isSelected={(id) => draft.patternId === id}
       onSelect={(id) => update({ patternId: id })}
       useSample={usePatternSample}
+      anchorSelected
+      renderExtra={(id) => (id === "none" || id === "glitter" ? null : <PatternMotionList />)}
     />
   );
 }

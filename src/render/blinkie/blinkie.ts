@@ -1,8 +1,9 @@
 import { hexToRgb } from "../../utils/color.ts";
+import { badgeRadius, finishBadge, paintBadgeOutline } from "../badge/badgeShape.ts";
 import { ensureFont, layoutGlyphs } from "../font/font.ts";
-import { BLINKIE_HEIGHT, BLINKIE_WIDTH, INTERIOR } from "./blinkie.constants.ts";
 import { createBitmap } from "./bitmap.ts";
 import { paintBorder } from "./border.ts";
+import { blinkieFormat, blinkieInterior } from "./format.ts";
 import { paintPattern } from "./pattern.ts";
 import { chaseSteps, laidOutWidth, paintText } from "./textFlash.ts";
 import type { BlinkieDraft, BlinkieFrames, BorderMotion, FontMotion, PatternMotion } from "./blinkie.types.ts";
@@ -46,10 +47,14 @@ function fontCycle(motion: FontMotion, letters: number): number {
 }
 
 function paintFrame(draft: BlinkieDraft, glyphs: Glyph[], frame: number): ImageData {
-  const image = createBitmap(BLINKIE_WIDTH, BLINKIE_HEIGHT, hexToRgb(draft.fill));
+  const spec = blinkieFormat(draft.format);
+  const interior = blinkieInterior(spec);
+  const fill = hexToRgb(draft.fill);
+  const border = hexToRgb(draft.borderColor);
+  const image = createBitmap(spec.width, spec.height, fill);
   paintPattern(
     image,
-    INTERIOR,
+    interior,
     draft.patternId,
     draft.patternMotion,
     frame,
@@ -57,7 +62,7 @@ function paintFrame(draft: BlinkieDraft, glyphs: Glyph[], frame: number): ImageD
   );
   paintText(
     image,
-    INTERIOR,
+    interior,
     glyphs,
     draft.fontMotion,
     frame,
@@ -65,13 +70,25 @@ function paintFrame(draft: BlinkieDraft, glyphs: Glyph[], frame: number): ImageD
     hexToRgb(draft.outlineColor),
     hexToRgb(draft.flashColor),
   );
+  const radius = badgeRadius(spec.width, spec.height, spec.shape);
+  finishBadge(image, {
+    radius,
+    bevel: spec.bevel,
+    fill,
+    fillEnd: fill,
+    axis: "vertical",
+    borderWidth: spec.border,
+  });
+  paintBadgeOutline(image, radius, border, 1);
   paintBorder(
     image,
-    { x: 0, y: 0, width: BLINKIE_WIDTH, height: BLINKIE_HEIGHT },
+    { x: 0, y: 0, width: spec.width, height: spec.height },
     draft.borderMotion,
     frame,
-    hexToRgb(draft.borderColor),
+    border,
     hexToRgb(draft.accentColor),
+    spec.border,
+    radius,
   );
   return image;
 }
@@ -84,8 +101,10 @@ export async function renderBlinkie(draft: BlinkieDraft): Promise<BlinkieFrames>
     borderCycle(draft.borderMotion),
     lcm(patternCycle(draft.patternId, draft.patternMotion), fontCycle(draft.fontMotion, letters)),
   );
+  const spec = blinkieFormat(draft.format);
+  const interior = blinkieInterior(spec);
   return {
     frames: Array.from({ length: count }, (_, frame) => paintFrame(draft, glyphs, frame)),
-    textFits: laidOutWidth(glyphs) + 2 <= INTERIOR.width,
+    textFits: laidOutWidth(glyphs) + 2 <= interior.width,
   };
 }

@@ -1,4 +1,5 @@
 import {
+  bigDotsPattern,
   brickPattern,
   checkerPattern,
   circlesPattern,
@@ -7,7 +8,9 @@ import {
   gridPattern,
   horizontalPattern,
   otherDiagonalPattern,
+  plusPattern,
   slashPattern,
+  starPattern,
   verticalPattern,
 } from "./patternCatalog.constants.ts";
 
@@ -19,6 +22,9 @@ const patternSources: Record<string, string> = {
   grid: gridPattern,
   checker: checkerPattern,
   dots: dotsPattern,
+  "big-dots": bigDotsPattern,
+  plus: plusPattern,
+  star: starPattern,
   brick: brickPattern,
   circles: circlesPattern,
   slash: slashPattern,

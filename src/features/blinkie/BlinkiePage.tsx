@@ -5,6 +5,7 @@ import { BlinkieClockProvider } from "../../context/BlinkieClockProvider/Blinkie
 import { useBlinkieDraft } from "../../hooks/useBlinkieDraft.ts";
 import { BlinkieBackgroundFields } from "./BlinkieBackgroundFields.tsx";
 import { BlinkieBorderFields } from "./BlinkieBorderFields.tsx";
+import { BlinkieFormatFields } from "./BlinkieFormatFields.tsx";
 import { BlinkiePatternFields } from "./BlinkiePatternFields.tsx";
 import { BlinkiePreview } from "./BlinkiePreview.tsx";
 import { BlinkieTextFields } from "./BlinkieTextFields.tsx";
@@ -69,6 +70,7 @@ export function BlinkiePage({ onShowUserbars }: BlinkiePageProps) {
               <BlinkieTextFields />
             </div>
             <div className="area-left grid content-start gap-gutter">
+              <BlinkieFormatFields />
               <BlinkieBackgroundFields />
               <BlinkiePatternFields />
             </div>

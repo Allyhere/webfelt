@@ -1,3 +1,5 @@
+import type { BadgeShape, GradientAxis } from "./badge/badgeShape.types.ts";
+
 export type Rgb = {
   r: number;
   g: number;
@@ -22,6 +24,9 @@ export type UserbarOptions = {
   height: number;
   backgroundTop: Rgb;
   backgroundBottom: Rgb;
+  gradientAxis: GradientAxis;
+  shape: BadgeShape;
+  bevel: boolean;
   text: string;
   textColor: Rgba;
   outlineColor: Rgba;

@@ -1,3 +1,4 @@
+import { badgeRadius, finishBadge, paintBadgeOutline } from "./badge/badgeShape.ts";
 import { drawPixel, rgbaToLinear, toImageData } from "./color/color.ts";
 import type { Surface } from "./color/color.types.ts";
 import { applyEffects } from "../features/effects/applyEffects.ts";
@@ -75,6 +76,7 @@ export async function renderUserbar(options: UserbarOptions): Promise<ImageData>
     options.height,
     options.backgroundTop,
     options.backgroundBottom,
+    options.gradientAxis,
   );
   drawSvgPattern(
     surface,
@@ -96,5 +98,16 @@ export async function renderUserbar(options: UserbarOptions): Promise<ImageData>
     options.textPlacement,
   );
   drawBorder(surface, options);
-  return toImageData(surface);
+  const image = toImageData(surface);
+  const radius = badgeRadius(options.width, options.height, options.shape);
+  finishBadge(image, {
+    radius,
+    bevel: options.bevel,
+    fill: options.backgroundTop,
+    fillEnd: options.backgroundBottom,
+    axis: options.gradientAxis,
+    borderWidth: options.border.a > 0 ? 1 : 0,
+  });
+  paintBadgeOutline(image, radius, options.border, options.border.a);
+  return image;
 }

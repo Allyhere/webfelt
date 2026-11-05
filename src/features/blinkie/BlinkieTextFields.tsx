@@ -22,8 +22,8 @@ export function BlinkieTextFields() {
             value={field.value}
             onChange={field.onChange}
             inputRef={field.ref}
-            description="One line, centered on the blinkie."
-            errorMessage={textFits ? undefined : "This line is wider than the blinkie."}
+            description="One line, centered."
+            errorMessage={textFits ? undefined : "This line is wider than the frame."}
           />
         )}
       />

@@ -5,6 +5,8 @@ declare module "gifenc" {
     palette?: GifPalette;
     delay?: number;
     repeat?: number;
+    transparent?: boolean;
+    transparentIndex?: number;
   };
 
   export type GifEncoderInstance = {

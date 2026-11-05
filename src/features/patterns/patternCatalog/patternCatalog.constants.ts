@@ -47,3 +47,26 @@ export const circlesPattern = `<svg xmlns="http://www.w3.org/2000/svg" width="8"
 export const slashPattern = `<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4">
   <line x1="0" y1="4" x2="4" y2="0" stroke="currentColor" stroke-width="1" />
 </svg>`;
+
+export const bigDotsPattern = `<svg xmlns="http://www.w3.org/2000/svg" width="6" height="6">
+  <rect x="0" y="0" width="2" height="2" fill="currentColor" />
+</svg>`;
+
+export const plusPattern = `<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">
+  <rect x="3" y="1" width="2" height="6" fill="currentColor" />
+  <rect x="1" y="3" width="6" height="2" fill="currentColor" />
+</svg>`;
+
+export const starPattern = `<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8">
+  <rect x="3" y="0" width="1" height="1" fill="currentColor" />
+  <rect x="2" y="1" width="3" height="1" fill="currentColor" />
+  <rect x="1" y="2" width="1" height="1" fill="currentColor" />
+  <rect x="3" y="2" width="1" height="1" fill="currentColor" />
+  <rect x="5" y="2" width="1" height="1" fill="currentColor" />
+  <rect x="0" y="3" width="7" height="1" fill="currentColor" />
+  <rect x="1" y="4" width="1" height="1" fill="currentColor" />
+  <rect x="3" y="4" width="1" height="1" fill="currentColor" />
+  <rect x="5" y="4" width="1" height="1" fill="currentColor" />
+  <rect x="2" y="5" width="3" height="1" fill="currentColor" />
+  <rect x="3" y="6" width="1" height="1" fill="currentColor" />
+</svg>`;

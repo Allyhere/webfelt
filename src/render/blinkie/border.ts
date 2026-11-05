@@ -1,3 +1,4 @@
+import { insideBadge } from "../badge/badgeShape.ts";
 import { BLINKIE_BORDER, PIP_DASH, PIP_PERIOD, SWATCH_FILL, SWATCH_SIZE } from "./blinkie.constants.ts";
 import { createBitmap, drawBitmapPixel } from "./bitmap.ts";
 import type { BorderMotion, Rect } from "./blinkie.types.ts";
@@ -12,29 +13,39 @@ function mod(value: number, period: number): number {
   return ((value % period) + period) % period;
 }
 
-function inRing(x: number, y: number, box: Rect): boolean {
+function inRing(
+  x: number,
+  y: number,
+  box: Rect,
+  thickness: number,
+  radius: number,
+): boolean {
   const localX = x - box.x;
   const localY = y - box.y;
   if (localX < 0 || localY < 0 || localX >= box.width || localY >= box.height) return false;
-  return (
-    localX < BLINKIE_BORDER ||
-    localY < BLINKIE_BORDER ||
-    localX >= box.width - BLINKIE_BORDER ||
-    localY >= box.height - BLINKIE_BORDER
-  );
+  if (
+    localX >= thickness &&
+    localY >= thickness &&
+    localX < box.width - thickness &&
+    localY < box.height - thickness
+  ) {
+    return false;
+  }
+  return insideBadge(localX, localY, box.width, box.height, radius);
 }
 
-function centerPath(box: Rect): Point[] {
-  const left = box.x + BLINKIE_BORDER;
-  const right = box.x + box.width - BLINKIE_BORDER - 1;
-  const top = box.y + BLINKIE_BORDER;
-  const bottom = box.y + box.height - BLINKIE_BORDER - 1;
+function centerPath(box: Rect, thickness: number): Point[] {
+  const mid = Math.floor((thickness - 1) / 2);
+  const left = box.x + thickness;
+  const right = box.x + box.width - thickness - 1;
+  const top = box.y + thickness;
+  const bottom = box.y + box.height - thickness - 1;
   if (right < left || bottom < top) return [];
   const path: Point[] = [];
-  for (let x = left; x <= right; x += 1) path.push({ x, y: box.y + 1 });
-  for (let y = top; y <= bottom; y += 1) path.push({ x: box.x + box.width - 2, y });
-  for (let x = right; x >= left; x -= 1) path.push({ x, y: box.y + box.height - 2 });
-  for (let y = bottom; y >= top; y -= 1) path.push({ x: box.x + 1, y });
+  for (let x = left; x <= right; x += 1) path.push({ x, y: box.y + mid });
+  for (let y = top; y <= bottom; y += 1) path.push({ x: box.x + box.width - 1 - mid, y });
+  for (let x = right; x >= left; x -= 1) path.push({ x, y: box.y + box.height - 1 - mid });
+  for (let y = bottom; y >= top; y -= 1) path.push({ x: box.x + mid, y });
   return path;
 }
 
@@ -51,20 +62,23 @@ export function paintBorder(
   frame: number,
   border: Rgb,
   accent: Rgb,
+  thickness: number,
+  radius: number,
 ): void {
   const flash = motion === "flash" && frame % 2 === 1;
   for (let y = box.y; y < box.y + box.height; y += 1) {
     for (let x = box.x; x < box.x + box.width; x += 1) {
-      if (!inRing(x, y, box)) continue;
+      if (!inRing(x, y, box, thickness, radius)) continue;
       drawBitmapPixel(image, x, y, flash ? accent : border);
     }
   }
   if (motion === "still" || motion === "flash") return;
-  const path = centerPath(box);
+  const path = centerPath(box, thickness);
   for (let index = 0; index < path.length; index += 1) {
     if (!litPixel(motion, index, frame)) continue;
     const point = path[index];
     if (!point) continue;
+    if (!insideBadge(point.x - box.x, point.y - box.y, box.width, box.height, radius)) continue;
     drawBitmapPixel(image, point.x, point.y, accent);
   }
 }
@@ -83,6 +97,8 @@ export function paintBorderSwatch(
     frame,
     border,
     accent,
+    BLINKIE_BORDER,
+    0,
   );
   return image;
 }

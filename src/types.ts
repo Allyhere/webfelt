@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import type { BadgeShape, GradientAxis } from "./render/badge/badgeShape.types.ts";
 import type { Placement } from "./render/render.types.ts";
 
 export type ColorDraft = {
@@ -12,6 +13,9 @@ export type Draft = {
   height: number;
   backgroundTop: string;
   backgroundBottom: string;
+  gradientAxis: GradientAxis;
+  shape: BadgeShape;
+  bevel: boolean;
   text: string;
   textColor: ColorDraft;
   outlineColor: ColorDraft;
